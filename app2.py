@@ -14,6 +14,7 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 model = tf.keras.models.load_model("plant_disease_model.h5")
 
+
 class_names = [
     "Pepper__bell__Bacterial_spot",
     "Pepper__bell__healthy"
@@ -26,37 +27,51 @@ def predict_disease(img_path):
     img_array = np.expand_dims(img_array, axis=0)
 
     predictions = model.predict(img_array)
-    index = np.argmax(predictions[0])
 
-    disease = class_names[index]
-    confidence = predictions[0][index]
+    bacterial_prob = predictions[0][1]
+    healthy_prob = predictions[0][0]
+
+    if bacterial_prob > 0.85:
+        disease = "Pepper Bell - Bacterial Spot"
+        confidence = bacterial_prob
+
+    else:
+        disease = "Pepper Bell - Healthy"
+        confidence = healthy_prob
 
     return disease, confidence
 
 def treatment_advice(disease):
-    disease = disease.lower()
-
-    if "bacterial" in disease:
-        return "Use copper-based fungicide. Remove infected leaves. Avoid overhead irrigation."
-    elif "healthy" in disease:
-        return "Plant is healthy 🌱 Continue proper watering and fertilization."
+    if "Bacterial" in disease:
+        return (
+            "• Remove infected leaves immediately.<br>"
+            "• Use copper-based bactericides.<br>"
+            "• Avoid overhead irrigation.<br>"
+            "• Maintain proper field hygiene."
+        )
     else:
-        return "Consult an agriculture expert."
+        return (
+            "• Plant is healthy 🌱<br>"
+            "• Continue regular watering.<br>"
+            "• Apply balanced fertilizer.<br>"
+            "• Monitor for pests and diseases."
+        )
 
 @app.route("/")
-def index():
-    return render_template("index.html")
+def welcome():
+    return render_template("welcome.html")
 
+@app.route("/home")
+def home():
+    return render_template("index.html")
 
 @app.route("/about")
 def about():
     return render_template("about.html")
 
-
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
-
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -81,7 +96,6 @@ def predict():
         treatment=treatment,
         image=file.filename
     )
-
 
 if __name__ == "__main__":
     app.run(debug=True)
