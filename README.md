@@ -21,4 +21,5 @@ How It Works
 2. Preprocessing:The image is resized and normalized for the CNN model.  
 3. Prediction:The trained CNN predicts the disease class with confidence.  
 4. Results:The system displays disease details and treatment recommendations.
-<img width="1920" height="1020" alt="Screenshot 2025-12-31 133308" src="https://github.com/user-attachments/assets/15304863-7494-4969-a4e4-05d93427b0c2" />
+<img width="1920" height="1020" alt="C:\Users\Hema\Pictures\Screenshots\Screenshot 2026-01-07 222624.png" <img width="1920" height="1020" alt="Screenshot 2026-01-07 222624" src="https://github.com/user-attachments/assets/6751a9e6-3381-458f-8746-ae9b0f38346b" />
+src="https://github.com/user-attachments/assets/15304863-7494-4969-a4e4-05d93427b0c2" />
