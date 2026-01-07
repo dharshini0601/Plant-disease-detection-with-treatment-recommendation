@@ -1,23 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Result</title>
-    <link rel="stylesheet"
-     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Result | Plant Disease Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #33804e, #40814c);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .container {
+            background: #ffffffdd;
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            max-width: 750px;
+            width: 90%;
+            text-align: center;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #2e7d32;
+        }
+
+        .result-card {
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.8s forwards;
+        }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .disease-card { 
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9); 
+            animation-delay: 0.3s;
+        }
+        .treatment-card { 
+            background: linear-gradient(135deg, #d9ceda, #f4e4f6); 
+            text-align: left;
+            animation-delay: 0.6s;
+        }
+
+        .disease-card h2 {
+            color: #2e7d32;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .treatment-card h3 {
+            text-align: center;
+            color: #680c64;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        img {
+            width: 320px;
+            border-radius: 15px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+            margin-top: 10px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+        }
+        
+        a button {
+            background: #43a047;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        a button:hover {
+            background: #2e7d32;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            img {
+                width: 90%;
+            }
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
-  <div class="card shadow p-4">
-    <h2 class="text-success">Prediction Result</h2>
+<div class="container">
 
-    <p><b>Disease:</b> {{ disease }}</p>
-    <p><b>Confidence:</b> {{ confidence }}%</p>
-    <p><b>Treatment:</b> {{ treatment }}</p>
+    <h1>🌿 Prediction Result</h1>
 
-    <a href="/" class="btn btn-success mt-3">Check Another Image</a>
-  </div>
+    <div class="result-card disease-card">
+        <h2>{{ disease }}</h2>
+        <p><b>Confidence:</b> {{ confidence }}%</p>
+    </div>
+
+    <h3>🖼 Uploaded Leaf Image</h3>
+    <img src="{{ url_for('static', filename='uploads/' + image) }}" alt="Uploaded Leaf Image">
+
+   
+    <div class="result-card treatment-card">
+        <h3>💊 Treatment Recommendation</h3>
+        <p>{{ treatment|safe }}</p>
+    </div>
+
+    <a href="/home">
+        <button>🔄 Detect Another Image</button>
+    </a>
+
 </div>
 
 </body>
 </html>
+
+
